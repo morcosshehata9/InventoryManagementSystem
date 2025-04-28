@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using InventoryManagementSystem.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace InventoryManagementSystem.Data
 {
@@ -9,6 +10,7 @@ namespace InventoryManagementSystem.Data
 
         }
 
-
+        public DbSet<Product> Products { get; set; }
+        public DbSet<InventoryTransaction> InventoryTransactions { get; set; }
     }
 }

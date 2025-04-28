@@ -145,3 +145,4 @@ D:\ITI\Roboost Task\InventoryManagementSystem\InventoryManagementSystem\obj\Debu
 D:\ITI\Roboost Task\InventoryManagementSystem\InventoryManagementSystem\obj\Debug\net8.0\InventoryManagementSystem.pdb
 D:\ITI\Roboost Task\InventoryManagementSystem\InventoryManagementSystem\obj\Debug\net8.0\InventoryManagementSystem.genruntimeconfig.cache
 D:\ITI\Roboost Task\InventoryManagementSystem\InventoryManagementSystem\obj\Debug\net8.0\ref\InventoryManagementSystem.dll
+D:\ITI\Roboost Task\InventoryManagementSystem\InventoryManagementSystem\obj\Debug\net8.0\InventoryManagementSystem.sourcelink.json
