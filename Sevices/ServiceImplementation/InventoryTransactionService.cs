@@ -2,18 +2,19 @@
 using InventoryManagementSystem.GenericRepositories;
 using InventoryManagementSystem.Models;
 using InventoryManagementSystem.Sevices.ServiceInterface;
-using InventoryManagementSystem.UnitOfWork;
+using InventoryManagementSystem.UOW;
 
 namespace InventoryManagementSystem.Sevices.ServiceImplementation
 {
-    public class InventoryTransactionService : GenericRepository<InventoryTransaction>, IInventoryTransactionService
+    public class InventoryTransactionService : IInventoryTransactionService
     {
-        private readonly AppDbContext Context;
+        private readonly IUnitOfWork unitOfWork;
 
-        public InventoryTransactionService(AppDbContext appDbContext) : base(appDbContext)
+        public InventoryTransactionService(IUnitOfWork unitOfWork)
         {
-            Context = appDbContext;
+            this.unitOfWork = unitOfWork;
         }
+
 
     }
 }

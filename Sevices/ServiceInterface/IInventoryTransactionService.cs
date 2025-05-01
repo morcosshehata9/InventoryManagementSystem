@@ -3,8 +3,9 @@ using InventoryManagementSystem.Models;
 
 namespace InventoryManagementSystem.Sevices.ServiceInterface
 {
-    public interface IInventoryTransactionService : IGenericRepository<InventoryTransaction>
+    public interface IInventoryTransactionService
     {
+        
 
     }
 }

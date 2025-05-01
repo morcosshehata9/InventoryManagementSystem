@@ -6,7 +6,7 @@ namespace InventoryManagementSystem.GenericRepositories
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
-        private readonly AppDbContext Context;
+        private readonly AppDbContext Context; 
         private readonly DbSet<T> _dbSet;
 
         public GenericRepository(AppDbContext appDbContext)
@@ -16,12 +16,30 @@ namespace InventoryManagementSystem.GenericRepositories
         }
         public async Task<IEnumerable<T>> GetAllAsync()
         {
-            return await _dbSet.ToListAsync();
+
+            return await _dbSet
+                .Where(obj => EF.Property<bool>(obj, "IsDeleted") == false)
+                .ToListAsync();
+
         }
 
         public async Task<T> GetByIdAsync(int id)
         {
-            return await _dbSet.FindAsync(id);
+            var obj = await _dbSet.FindAsync(id);
+
+            if (obj != null)
+            {
+                var isDeletedProp = typeof(T).GetProperty("IsDeleted");
+                if (isDeletedProp != null)
+                {
+                    var isDeleted = (bool)isDeletedProp.GetValue(obj)!;
+                    if (isDeleted)
+                        return null;
+                }
+                return obj;
+            }
+
+            return null;
         }
         public async Task AddAsync(T obj)
         {
@@ -32,10 +50,21 @@ namespace InventoryManagementSystem.GenericRepositories
             _dbSet.Update(obj);
         }
 
-        public void Delete(T obj)
+        public async Task<bool> DeleteAsync(int id)
         {
-            _dbSet.Remove(obj); 
-        }
+            var entity = await _dbSet.FindAsync(id);
+            if (entity == null)
+                return false;
 
+            typeof(T).GetProperty("IsDeleted").SetValue(entity, true);
+            _dbSet.Update(entity);
+            return true;
+
+
+        }
+        public IQueryable<T> GetQueryable() 
+        {
+            return _dbSet.AsQueryable();
+        }
     }
 }

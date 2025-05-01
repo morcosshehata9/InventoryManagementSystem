@@ -1,5 +1,8 @@
 
 using InventoryManagementSystem.Data;
+using InventoryManagementSystem.Sevices.ServiceImplementation;
+using InventoryManagementSystem.Sevices.ServiceInterface;
+using InventoryManagementSystem.UOW;
 using Microsoft.EntityFrameworkCore;
 
 namespace InventoryManagementSystem
@@ -21,6 +24,11 @@ namespace InventoryManagementSystem
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("CS"));
             });
+
+            builder.Services.AddScoped<IProductService, ProductService>();
+            builder.Services.AddScoped<IInventoryTransactionService, InventoryTransactionService>();
+            builder.Services.AddScoped<ICategoryService, CategoryService>();
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             var app = builder.Build();
 
