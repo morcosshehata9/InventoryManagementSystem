@@ -12,7 +12,7 @@ namespace InventoryManagementSystem.Models
         [MaxLength(255)]
         public string? Description { get; set; }
         [NotMapped]
-        public int TotalQuantity => ProductWarehouses?.Sum(pw => pw.Quantity) ?? 0; // ====
+        public int TotalQuantity => ProductWarehouses?.Sum(pw => pw.Quantity) ?? 0; 
         [Required]
         [Precision(18, 2)]
         public decimal Price { get; set; }

@@ -51,7 +51,7 @@ namespace InventoryManagementSystem.Sevices.ServiceImplementation
             var products = await unitOfWork.Products
                .GetQueryable()
                .Include(p => p.Category)
-               .Include(p => p.ProductWarehouses) // ================================
+               .Include(p => p.ProductWarehouses) 
                .Where(p => !p.IsDeleted)
                .ToListAsync();
 
@@ -73,7 +73,7 @@ namespace InventoryManagementSystem.Sevices.ServiceImplementation
             var product = await unitOfWork.Products
                 .GetQueryable()
                 .Include(p => p.Category)
-                .Include(p => p.ProductWarehouses) // ================================
+                .Include(p => p.ProductWarehouses) 
                 .Where(p => !p.IsDeleted && p.Id == id)
                 .FirstOrDefaultAsync();
 
@@ -91,9 +91,34 @@ namespace InventoryManagementSystem.Sevices.ServiceImplementation
                 CategoryName = product.Category.Name,
 
             };
-
-
         }
+
+        public async Task<IEnumerable<GetProductsDTO>> GetProductsByWarehouseId(int warehouseId)
+        {
+            var products = await unitOfWork.Products
+                .GetQueryable()
+                .Include(p => p.Category)
+                .Include(p => p.ProductWarehouses)
+                .Where(p => !p.IsDeleted && p.ProductWarehouses.Any(pw => pw.WarehouseId == warehouseId))
+                .ToListAsync();
+
+            var productDTOs = products.Select(p =>
+            {
+                return new GetProductsDTO
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    Description = p.Description,
+                    LowStockThreshold = p.LowStockThreshold,
+                    Price = p.Price,
+                    TotalQuantity = p.ProductWarehouses.FirstOrDefault(pw=>pw.WarehouseId == warehouseId).Quantity,
+                    CategoryName = p.Category.Name,
+                };
+            });
+
+            return productDTOs;
+        }
+
 
         public async Task<bool> UpdateAsync(int id, UpdateProductDTO productDTO)
         {

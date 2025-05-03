@@ -52,7 +52,7 @@ namespace InventoryManagementSystem.Controllers
             }
 
 
-            await userManager.AddToRoleAsync(user, "Admin"); // add user role
+            await userManager.AddToRoleAsync(user, "User"); // add user role
 
             return Ok("Account Created Successfully!");
         }

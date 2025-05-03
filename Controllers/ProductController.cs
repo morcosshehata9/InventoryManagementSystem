@@ -28,6 +28,13 @@ namespace InventoryManagementSystem.Controllers
             return Ok(products);
         }
 
+        [HttpGet("ByWarehouse/{id:int}")]
+        public async Task<IActionResult> GetProductsByWarehouse(int id) {
+
+            IEnumerable<GetProductsDTO> products = await _productService.GetProductsByWarehouseId(id);
+            return Ok(products);
+
+        }
 
         [HttpGet("GetProduct/{id:int}")]
         public async Task<IActionResult> GetProductById(int id) {

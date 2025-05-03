@@ -48,9 +48,6 @@ namespace InventoryManagementSystem.Sevices.ServiceImplementation
                 unitOfWork.ProductWarehouses.Update(productWarehouse);
                 
             }
-            //product.TotalQuantity += addStockDTO.Quantity; // ----------
-            //unitOfWork.Products.Update(product);
-
 
             var newTransaction = new InventoryTransaction
             {
@@ -92,8 +89,6 @@ namespace InventoryManagementSystem.Sevices.ServiceImplementation
             productWarehouse.Quantity -= removeStockDTO.Quantity;
             unitOfWork.ProductWarehouses.Update(productWarehouse);
 
-            //product.TotalQuantity -= removeStockDTO.Quantity; // ---------------
-            //unitOfWork.Products.Update(product);
 
 
             var newTransaction = new InventoryTransaction
