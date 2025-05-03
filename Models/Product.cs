@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace InventoryManagementSystem.Models
 {
@@ -10,9 +11,10 @@ namespace InventoryManagementSystem.Models
         public string Name { get; set; }
         [MaxLength(255)]
         public string? Description { get; set; }
+        [NotMapped]
+        public int TotalQuantity => ProductWarehouses?.Sum(pw => pw.Quantity) ?? 0; // ====
         [Required]
-        public int TotalQuantity { get; set; } 
-        [Required]
+        [Precision(18, 2)]
         public decimal Price { get; set; }
         [Required]
         public int LowStockThreshold { get; set; }

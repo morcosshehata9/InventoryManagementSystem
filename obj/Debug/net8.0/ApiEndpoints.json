@@ -1,6 +1,27 @@
 [
   {
     "ContainingType": "InventoryManagementSystem.Controllers.AccountController",
+    "Method": "AssignRole",
+    "RelativePath": "api/Account/AssignRole",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "username",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "role",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "InventoryManagementSystem.Controllers.AccountController",
     "Method": "Login",
     "RelativePath": "api/Account/Login",
     "HttpMethod": "POST",
@@ -32,6 +53,27 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "InventoryManagementSystem.Controllers.AccountController",
+    "Method": "RemoveRole",
+    "RelativePath": "api/Account/RemoveRole",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "username",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "role",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "InventoryManagementSystem.Controllers.CategoryController",
     "Method": "AddCategory",
     "RelativePath": "api/Category/Add",
@@ -48,32 +90,48 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "InventoryManagementSystem.Controllers.ProductController",
-    "Method": "GetProductById",
-    "RelativePath": "api/Product/{id}",
-    "HttpMethod": "GET",
+    "ContainingType": "InventoryManagementSystem.Controllers.InventoryTransactionController",
+    "Method": "IncreaseProductStock",
+    "RelativePath": "api/InventoryTransaction/AddStock",
+    "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "id",
-        "Type": "System.Int32",
+        "Name": "addStockDTO",
+        "Type": "InventoryManagementSystem.DTOs.InventoryTransaction.AddStockDTO",
         "IsRequired": true
       }
     ],
     "ReturnTypes": []
   },
   {
-    "ContainingType": "InventoryManagementSystem.Controllers.ProductController",
-    "Method": "DeleteProduct",
-    "RelativePath": "api/Product/{id}",
-    "HttpMethod": "DELETE",
+    "ContainingType": "InventoryManagementSystem.Controllers.InventoryTransactionController",
+    "Method": "DecreaseProductStock",
+    "RelativePath": "api/InventoryTransaction/RemoveStock",
+    "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "id",
-        "Type": "System.Int32",
+        "Name": "removeStockDTO",
+        "Type": "InventoryManagementSystem.DTOs.InventoryTransaction.RemoveStockDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "InventoryManagementSystem.Controllers.InventoryTransactionController",
+    "Method": "TransferProductStock",
+    "RelativePath": "api/InventoryTransaction/TransferStock",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "transferStockDTO",
+        "Type": "InventoryManagementSystem.DTOs.InventoryTransaction.TransferStockDTO",
         "IsRequired": true
       }
     ],
@@ -107,6 +165,38 @@
   },
   {
     "ContainingType": "InventoryManagementSystem.Controllers.ProductController",
+    "Method": "DeleteProduct",
+    "RelativePath": "api/Product/Delete/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "InventoryManagementSystem.Controllers.ProductController",
+    "Method": "GetProductById",
+    "RelativePath": "api/Product/GetProduct/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "InventoryManagementSystem.Controllers.ProductController",
     "Method": "UpdateProduct",
     "RelativePath": "api/Product/Update/{id}",
     "HttpMethod": "PUT",
@@ -121,6 +211,48 @@
       {
         "Name": "productDTO",
         "Type": "InventoryManagementSystem.DTOs.Product.UpdateProductDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "InventoryManagementSystem.Controllers.ReportController",
+    "Method": "GetTransactionHistory",
+    "RelativePath": "api/Report/History",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "transactionHistoryFilterDTO",
+        "Type": "InventoryManagementSystem.DTOs.Reports.TransactionHistoryFilterDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "InventoryManagementSystem.Controllers.ReportController",
+    "Method": "GetLowStockProducts",
+    "RelativePath": "api/Report/LowStock",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "InventoryManagementSystem.Controllers.WarehouseController",
+    "Method": "AddWarehouse",
+    "RelativePath": "api/Warehouse/Add",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "warehouseDTO",
+        "Type": "InventoryManagementSystem.DTOs.Warehouse.AddWarehouseDTO",
         "IsRequired": true
       }
     ],

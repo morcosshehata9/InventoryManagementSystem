@@ -1,7 +1,7 @@
 ﻿using InventoryManagementSystem.DTOs.Category;
-using InventoryManagementSystem.Models;
+using InventoryManagementSystem.DTOs.Warehouse;
+using InventoryManagementSystem.Sevices.ServiceImplementation;
 using InventoryManagementSystem.Sevices.ServiceInterface;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,23 +9,22 @@ namespace InventoryManagementSystem.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CategoryController : ControllerBase
+    public class WarehouseController : ControllerBase
     {
-        private readonly ICategoryService categoryService;
+        private readonly IWarehouseService warehouseService;
 
-        public CategoryController(ICategoryService categoryService)
+        public WarehouseController(IWarehouseService warehouseService)
         {
-            this.categoryService = categoryService;
+            this.warehouseService = warehouseService;
         }
 
 
-        //[Authorize(Roles = "Admin")]
         [HttpPost("Add")]
-        public async Task<IActionResult> AddCategory(AddCategoryDTO category)
+        public async Task<IActionResult> AddWarehouse(AddWarehouseDTO warehouseDTO)
         {
             if (ModelState.IsValid)
             {
-                await categoryService.AddAsync(category);
+                await warehouseService.AddAsync(warehouseDTO);
                 return Ok("Created!");
             }
             return BadRequest("Not Created!!!");

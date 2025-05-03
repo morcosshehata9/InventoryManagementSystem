@@ -2,8 +2,8 @@
 {
     public enum TransactionType
     {
-        Add,
-        Remove,
-        Transfer
+        AddStock,
+        RemoveStock,
+        TransferStock
     }
 }

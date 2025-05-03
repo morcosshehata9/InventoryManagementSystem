@@ -23,7 +23,6 @@ namespace InventoryManagementSystem.Sevices.ServiceImplementation
                 CategoryId = productDTO.CategoryId,
                 Name = productDTO.Name,
                 Description = productDTO.Description,
-                TotalQuantity = productDTO.TotalQuantity,
                 Price = productDTO.Price,
                 LowStockThreshold = productDTO.LowStockThreshold, 
 
@@ -52,6 +51,7 @@ namespace InventoryManagementSystem.Sevices.ServiceImplementation
             var products = await unitOfWork.Products
                .GetQueryable()
                .Include(p => p.Category)
+               .Include(p => p.ProductWarehouses) // ================================
                .Where(p => !p.IsDeleted)
                .ToListAsync();
 
@@ -73,6 +73,7 @@ namespace InventoryManagementSystem.Sevices.ServiceImplementation
             var product = await unitOfWork.Products
                 .GetQueryable()
                 .Include(p => p.Category)
+                .Include(p => p.ProductWarehouses) // ================================
                 .Where(p => !p.IsDeleted && p.Id == id)
                 .FirstOrDefaultAsync();
 
@@ -105,7 +106,6 @@ namespace InventoryManagementSystem.Sevices.ServiceImplementation
             product.Name = productDTO.Name;
             product.Description = productDTO.Description;
             product.Price = productDTO.Price;
-            product.TotalQuantity = productDTO.Quantity;
             product.LowStockThreshold = productDTO.LowStockThreshold;
             product.IsDeleted = productDTO.IsDeleted;
 

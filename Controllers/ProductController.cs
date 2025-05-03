@@ -3,6 +3,7 @@ using InventoryManagementSystem.DTOs.Product;
 using InventoryManagementSystem.Models;
 using InventoryManagementSystem.Sevices.ServiceInterface;
 using InventoryManagementSystem.UOW;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,7 +21,6 @@ namespace InventoryManagementSystem.Controllers
         }
 
 
-
         [HttpGet("All")]
         public async Task<IActionResult> GetAllProducts()
         {
@@ -29,7 +29,7 @@ namespace InventoryManagementSystem.Controllers
         }
 
 
-        [HttpGet("{id:int}")]
+        [HttpGet("GetProduct/{id:int}")]
         public async Task<IActionResult> GetProductById(int id) {
             GetProductsDTO product = await _productService.GetByIdAsync(id);
             if (product == null) {
@@ -38,6 +38,7 @@ namespace InventoryManagementSystem.Controllers
             return Ok(product);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost("Add")]
         public async Task<IActionResult> AddProduct([FromBody] AddProductDTO addProductDTO) {
             if (ModelState.IsValid)
@@ -49,6 +50,7 @@ namespace InventoryManagementSystem.Controllers
             return BadRequest(ModelState);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut("Update/{id:int}")]
         public async Task<IActionResult> UpdateProduct(int id, [FromBody] UpdateProductDTO productDTO)
         {
@@ -66,8 +68,8 @@ namespace InventoryManagementSystem.Controllers
 
         }
 
-        [HttpDelete("{id:int}")]
-
+        [Authorize(Roles = "Admin")]
+        [HttpDelete("Delete/{id:int}")]
         public async Task<IActionResult> DeleteProduct(int id) {
 
             GetProductsDTO product = await _productService.GetByIdAsync(id);

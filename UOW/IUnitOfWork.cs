@@ -11,6 +11,8 @@ public interface IUnitOfWork
     IGenericRepository<Warehouse> Warehouses { get; }
     IGenericRepository<ProductWarehouse> ProductWarehouses { get; }
 
+    
+
 
     Task<int> SaveAsync(); // int for number of rows affected 
 }

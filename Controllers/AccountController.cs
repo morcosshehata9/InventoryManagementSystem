@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using InventoryManagementSystem.DTOs.Account;
 using InventoryManagementSystem.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -17,6 +18,7 @@ namespace InventoryManagementSystem.Controllers
     {
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IConfiguration configuration;
+        private readonly IServiceProvider serviceProvider;
 
         public AccountController(UserManager<ApplicationUser> userManager, IConfiguration configuration)
         {
@@ -24,6 +26,7 @@ namespace InventoryManagementSystem.Controllers
             this.configuration = configuration;
         }
 
+        
 
         [HttpPost("Register")]
         public async Task<IActionResult> Register(RegisterDTO registerDTO)
@@ -47,6 +50,10 @@ namespace InventoryManagementSystem.Controllers
                 }
                 return BadRequest(ModelState);
             }
+
+
+            await userManager.AddToRoleAsync(user, "Admin"); // add user role
+
             return Ok("Account Created Successfully!");
         }
 
@@ -89,7 +96,7 @@ namespace InventoryManagementSystem.Controllers
             JwtSecurityToken token = new JwtSecurityToken(
                 issuer: configuration["Jwt:Issuer"], // provider
                 //audience: "", // consumer
-                expires: DateTime.UtcNow.AddHours(1),
+                expires: DateTime.UtcNow.AddDays(5),
                 claims: claimsList,
                 signingCredentials: signingCredentials
             );
@@ -97,8 +104,44 @@ namespace InventoryManagementSystem.Controllers
             return Ok(new
             {
                 expired = DateTime.UtcNow.AddHours(1),
-                token = new JwtSecurityTokenHandler().WriteToken(token) // return compact token 
+                token = new JwtSecurityTokenHandler().WriteToken(token) // return compact format token 
             });  
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost("AssignRole")]
+        public async Task<IActionResult> AssignRole(string username, string role)
+        {
+            var user = await userManager.FindByNameAsync(username);
+            if (user == null)
+            {
+                return NotFound();
+
+            }
+            var result = await userManager.AddToRoleAsync(user, role);
+            if (!result.Succeeded)
+            {
+                return BadRequest(result.Errors);
+            }
+            return Ok($"Role {role} assigned to {username} Successfully!");
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost("RemoveRole")]
+        public async Task<IActionResult> RemoveRole(string username, string role)
+        {
+            var user = await userManager.FindByNameAsync(username);
+            if (user == null)
+            {
+                return NotFound();
+
+            }
+            var result = await userManager.RemoveFromRoleAsync(user, role);
+            if (!result.Succeeded)
+            {
+                return BadRequest(result.Errors);
+            }
+            return Ok($"Role {role} Removed from {username} Successfully!");
         }
     }
 }
